@@ -5,6 +5,43 @@ import Input from '../../components/UI/Input/Input';
 
 
 export default class Auth extends Component {
+  state = {
+    formControls: {
+      email: {
+        value: '',
+        type: 'email',
+        label: "Email",
+        errorMessage: 'Введите корректный Email',
+        vaild: false,
+        touched: false,
+        validation: {
+          required: true,
+          email: true
+        }
+      },
+      password: {
+        formControls: {
+          password: {
+            value: '',
+            type: 'password',
+            label: "Пароль",
+            errorMessage: 'Введите корректный пароль',
+            vaild: false,
+            touched: false,
+            validation: {
+              required: true,
+              minLength: 6
+            }
+      }
+    }
+  }
+
+  renderInputs = () => {
+    const inputs = Object.keys(this.state.formControls).map((controlName, index) => {
+      
+    }) 
+  }
+
   loginHandler = () => {};
 
   registerHandler = () => {};
@@ -19,10 +56,8 @@ export default class Auth extends Component {
         <div>
           <h1>Авторизация</h1>
           <form onSubmit={this.submitHandler} className={classes.AuthForm}>
-            <Input label='Email'/>
-            <Input label='Пароль' 
-                   errorMessage='test'
-            />
+
+            this.renderInputs();
 
             <Button type="success" onClick={this.loginHandler}>
               Войти
