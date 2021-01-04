@@ -3,6 +3,7 @@ import classes from './Auth.module.css';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
 import is from 'is_js';
+import axios from 'axios';
 
 export default class Auth extends Component {
   state = {
@@ -69,12 +70,13 @@ export default class Auth extends Component {
 
     let isFormValid = true;
 
-    Object.keys(formControls).forEach(name => {
-      isFormValid = formControls[name].valid && isFormValid
-    })
+    Object.keys(formControls).forEach((name) => {
+      isFormValid = formControls[name].valid && isFormValid;
+    });
 
     this.setState({
-      formControls, isFormValid
+      formControls,
+      isFormValid,
     });
   };
 
@@ -97,9 +99,40 @@ export default class Auth extends Component {
     });
   };
 
-  loginHandler = () => {};
+  loginHandler = async () => {    
+    const authData = {
+    email: this.state.formControls.email.value,
+    password: this.state.formControls.password.value,
+    returnSecureToken: true
+  }
+  try {
+    const response = await axios.post(
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB9lqd_m0NR0zCB-JHijn0mINve8kooPiw',
+      authData
+    );
+    console.log(response.data);
+  } catch (e) {
+    console.log(e);
+  }
+};
 
-  registerHandler = () => {};
+  registerHandler = async () => {
+    const authData = {
+      email: this.state.formControls.email.value,
+      password: this.state.formControls.password.value,
+      returnSecureToken: true
+    }
+    try {
+      const response = await axios.post(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB9lqd_m0NR0zCB-JHijn0mINve8kooPiw',
+        authData
+      );
+      console.log(response.data);
+    } catch (e) {
+      console.log(e);
+    }
+
+  };
 
   submitHandler = (e) => {
     e.preventDefault();
@@ -115,7 +148,10 @@ export default class Auth extends Component {
             <Button type="success" onClick={this.loginHandler} disabled={!this.state.isFormValid}>
               Войти
             </Button>
-            <Button type="primary" onClick={this.registerHandler} disabled={!this.state.isFormValid}>
+            <Button
+              type="primary"
+              onClick={this.registerHandler}
+              disabled={!this.state.isFormValid}>
               Зарегистрироваться
             </Button>
           </form>
